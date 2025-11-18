@@ -1,0 +1,11 @@
+saude.hesperus.dev {
+	encode gzip
+	@api path /api/*
+
+	# Frontend Next (porta 3000 no container)
+	reverse_proxy /* frontend:3000
+
+	# API Flask (porta 8000 no container)
+	rewrite @api {path}
+	reverse_proxy @api backend:8000
+}

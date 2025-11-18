@@ -1,0 +1,57 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports: ["3307:3306"]
+    command: ["--default-authentication-plugin=mysql_native_password","--character-set-server=utf8mb4","--collation-server=utf8mb4_unicode_ci"]
+    volumes:
+      - db_data_dev:/var/lib/mysql
+    networks: [appnet]
+
+  backend:
+    build: ./backend
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+      SQLALCHEMY_DATABASE_URI: ${SQLALCHEMY_DATABASE_URI}
+      FLASK_ENV: development
+    volumes:
+      - ./backend:/app
+    command: python -m flask run --host=0.0.0.0 --port=8000
+    depends_on: [db]
+    ports: ["8000:8000"]
+    networks: [appnet]
+
+  frontend:
+    build: ./frontend
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      NODE_ENV: development
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev
+    depends_on: [backend]
+    ports: ["3000:3000"]
+    networks: [appnet]
+
+  caddy:
+    image: caddy:2
+    depends_on: [frontend, backend]
+    ports:
+      - "8080:80"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    networks: [appnet]
+
+volumes:
+  db_data_dev:
+
+networks:
+  appnet:
+    driver: bridge

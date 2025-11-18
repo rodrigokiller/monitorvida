@@ -1,0 +1,96 @@
+# ============================================
+# PYTHON / FASTAPI / SQLMODEL / ALEMBIC
+# ============================================
+
+# Compiled source
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.env/
+.venv/
+env/
+venv.bak/
+pip-wheel-metadata/
+pip-log.txt
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+coverage.xml
+.cache/
+.pytest_cache/
+nosetests.xml
+junit.xml
+
+# MyPy / Ruff / Pylint / Black / isort
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.dmypy.json
+.dmypy/
+__pypackages__/
+
+# Logs
+*.log
+logs/
+*.out
+*.err
+
+# ============================================
+# ALEMBIC
+# ============================================
+alembic/versions/__pycache__/
+alembic/versions/*.pyc
+# (opcional, se quiser versionar migrações)
+#alembic/versions/
+
+# ============================================
+# DATABASE / DOCKER / MYSQL
+# ============================================
+# Ignore data volumes and dumps
+dbdata/
+*.sql
+*.sql.gz
+*.db
+*.sqlite3
+
+# Docker
+*.pid
+*.tar
+*.bak
+*.old
+docker-compose.override.yml
+
+# ============================================
+# ENV / CONFIG
+# ============================================
+# Environment files (mantenha .env.example versionado)
+.env
+.env.*
+!*.example
+
+# ============================================
+# VS CODE
+# ============================================
+.vscode/
+.history/
+.code-workspace
+
+# ============================================
+# SYSTEM FILES
+# ============================================
+.DS_Store
+Thumbs.db
+.idea/
+*.iml
+*.swp
+*.swo
