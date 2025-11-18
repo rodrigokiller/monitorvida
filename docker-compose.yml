@@ -9,14 +9,18 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    command: ["--default-authentication-plugin=mysql_native_password","--character-set-server=utf8mb4","--collation-server=utf8mb4_unicode_ci"]
+    command:
+      # tira essa linha que está quebrando:
+      # --default-authentication-plugin=mysql_native_password
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
     volumes:
       - db_data:/var/lib/mysql
     networks: [appnet]
 
   backend:
     build:
-      context: ./backend
+      context: ./monitorvida_backend
     depends_on: [db]
     restart: unless-stopped
     environment:
@@ -27,7 +31,7 @@ services:
 
   frontend:
     build:
-      context: ./frontend
+      context: ./monitorvida_frontend
     depends_on: [backend]
     restart: unless-stopped
     environment:
